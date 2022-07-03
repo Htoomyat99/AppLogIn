@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(5),
     fontSize: wp(5),
     marginTop: hp(12),
-    color: '#ddd',
+    color: '#000',
   },
   confirmPassInput: {
     height: hp(7),
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(5),
     fontSize: wp(4.8),
     marginTop: hp(5),
-    color: '#ddd',
+    color: '#000',
   },
   alertContainer: {
     flexDirection: 'row',

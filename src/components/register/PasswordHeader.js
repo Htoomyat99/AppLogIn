@@ -7,7 +7,12 @@ const PasswordHeader = props => {
     <View style={styles.container}>
       <Text style={styles.title}>Security</Text>
 
-      <TextInput placeholder="Password..." style={styles.passInput} />
+      <TextInput
+        value={props.passValue}
+        placeholder="Password..."
+        style={styles.passInput}
+        onChangeText={props.onChangePass}
+      />
 
       {props.login ? (
         <View style={styles.alertContainer}>
@@ -16,8 +21,10 @@ const PasswordHeader = props => {
         </View>
       ) : (
         <TextInput
+          value={props.confirmPassValue}
           placeholder="Confirm Password..."
           style={styles.confirmPassInput}
+          onChangeText={props.onChangeConfirmPass}
         />
       )}
 

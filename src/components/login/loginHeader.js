@@ -12,7 +12,12 @@ const LoginHeader = props => {
 
       <Text style={styles.title}>{props.loginTitle}</Text>
 
-      <TextInput placeholder="Email..." style={styles.emailInput} />
+      <TextInput
+        value={props.emailValue}
+        placeholder="Email..."
+        style={styles.emailInput}
+        onChangeText={props.onChangeEmail}
+      />
 
       <TouchableOpacity onPress={props.goPassword}>
         <Text style={styles.next}>Next</Text>

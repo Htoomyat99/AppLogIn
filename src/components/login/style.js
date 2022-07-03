@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(5),
     fontSize: wp(5),
     marginTop: hp(10),
-    color: '#ddd',
+    color: '#000',
   },
   next: {
     // backgroundColor: 'red',
