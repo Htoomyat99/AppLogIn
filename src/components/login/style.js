@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: '350',
     textAlign: 'center',
     padding: wp(2),
-    marginTop: hp(6),
+    marginTop: hp(5),
   },
   emailInput: {
     height: hp(7),

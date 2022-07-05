@@ -1,20 +1,20 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState, useContext} from 'react';
+import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 
-import styles from './style';
+import DashboardScreen from '../../components/dashboard/DashboardScreen';
+import {AuthContext} from '../../context/context';
 
 const Dashboard = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>User Name</Text>
-        <Text style={styles.email}>Email: example@gmail.com</Text>
-      </View>
-      <TouchableOpacity>
-        <Text style={styles.logoutBtn}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const {getAuth} = useContext(AuthContext);
+
+  const dashboardHandler = () => {
+    // RNSecureKeyStore.remove('@user.token');
+    // RNSecureKeyStore.remove('@user.passToken');
+    getAuth(false);
+  };
+
+  return <DashboardScreen dashboardHandler={dashboardHandler} />;
 };
 
 export default Dashboard;
