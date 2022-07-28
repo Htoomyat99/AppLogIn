@@ -5,7 +5,7 @@ export default {
   login: 'login',
   emailPlaceholder: 'Email....',
   next: 'Next',
-  noAccount: 'You dont have an account please',
+  noAccount: `You don't have an account please`,
   haveAccount: 'You already have an account please',
   Register: 'Register',
   register: 'register',

@@ -1,11 +1,12 @@
 import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, ToastAndroid} from 'react-native';
-import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 
 import LoginHeader from '../../../components/login/loginHeader';
 import {AuthContext} from '../../../context/context';
 import {useLocal} from '../../../hook/useLocal';
 import AlertModal from '../../../components/alert/alertModal';
+import {appStorage} from '../../../utils/appStorage';
+
 import styles from './style';
 
 const Login = ({navigation}) => {
@@ -16,62 +17,41 @@ const Login = ({navigation}) => {
   const [myanmar, setMyanmar] = useState(false);
 
   const local = useLocal();
-  const {getUserInfo, lang, getLang} = useContext(AuthContext);
+  const {getUserEmail, getLang} = useContext(AuthContext);
 
   const changeHandler = () => {
     setChange(!change);
   };
 
   const regHandler = () => {
-    let token = '123456790';
+    let userToken = 1234567890;
 
-    const userData = {
-      email: email,
-    };
-
-    RNSecureKeyStore.set('@user.token', JSON.stringify(token), {
-      accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
-    });
-    RNSecureKeyStore.set('@user.data', JSON.stringify(userData), {
-      accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
-    }).then(
-      res => {
-        console.log(res);
-        if (userData.email) {
-          navigation.navigate({name: 'Password', params: {change: change}});
-          getUserInfo(userData);
-          console.log('email >>>', userData.email);
-        } else {
-          ToastAndroid.show(`Email can't be empty`, ToastAndroid.SHORT);
-          alert(local.alert);
-        }
-      },
-      err => {
-        console.log(err);
-      },
-    );
+    try {
+      appStorage.setItem('@user.email', email);
+      appStorage.setItem('@user.userToken', userToken);
+      if (email) {
+        navigation.navigate({name: 'Password', params: {change: change}});
+        getUserEmail(email);
+      } else {
+        ToastAndroid.show(`Email can't be empty`, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const loginHandler = () => {
-    // let userToken = '1234567890';
-    const loginData = RNSecureKeyStore.get('@user.data').then(
-      res => {
-        console.log(res);
+    const loginEmail = appStorage.getItem('@user.email');
+    if (email) {
+      if (loginEmail === email) {
         navigation.navigate({name: 'Password', params: {change: change}});
-        console.log('register data >>>', loginData);
-        console.log('login data >>>', email);
-        // if (email === loginData) {
-        //   console.log('tu tl');
-        // } else {
-        //   navigation.navigate({name: 'Password', params: {change: change}});
-        //   console.log('login >>>', email);
-        //   console.log(res);
-        // }
-      },
-      err => {
-        console.log(err);
-      },
-    );
+        getUserEmail(loginEmail);
+      } else {
+        ToastAndroid.show('Email Incorrect!', ToastAndroid.SHORT);
+      }
+    } else {
+      ToastAndroid.show('Please fill the input field', ToastAndroid.SHORT);
+    }
   };
 
   const languageHandler = () => {

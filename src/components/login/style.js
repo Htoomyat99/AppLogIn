@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'red',
-    fontSize: wp(3.5),
+    fontSize: wp(3.4),
   },
   footer: {
     // backgroundColor: 'grey',

@@ -258,6 +258,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
+    // compile project(':react-native-secure-key-store')
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
@@ -284,6 +285,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
 }
 
 if (isNewArchitectureEnabled()) {

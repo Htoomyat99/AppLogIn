@@ -1,16 +1,17 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {View, Text} from 'react-native';
-import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 import {NavigationContainer} from '@react-navigation/native';
 
 import AuthStack from './stack/authStack';
 import DashboardStack from './stack/dashboardStack';
 import {AuthContext} from '../context/context';
 import SplashScreen from '../components/splashScreen/splashScreen';
+import {appStorage} from '../utils/appStorage';
 
 const AppNavigator = () => {
   const [auth, setAuth] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userPass, setUserPass] = useState(null);
   const [splash, setSplash] = useState(true);
   const [lang, setLang] = useState('en');
 
@@ -20,11 +21,15 @@ const AppNavigator = () => {
 
   const context = {
     lang,
+    userEmail,
     getAuth: value => {
       setAuth(value);
     },
-    getUserInfo: value => {
-      setUserInfo(value);
+    getUserEmail: value => {
+      setUserEmail(value);
+    },
+    getUserPass: value => {
+      setUserPass(value);
     },
     getLang: value => {
       setLang(value);
@@ -32,28 +37,28 @@ const AppNavigator = () => {
   };
 
   const getData = () => {
-    const data = RNSecureKeyStore.get('@user.token');
-    const userData = RNSecureKeyStore.get('@user.data').then(
-      res => {
-        console.log(res);
-        if (data) {
-          // setAuth(true);
-          setUserInfo(userData);
-          console.log('appnavi register >>>', userData);
-          setTimeout(() => {
-            setSplash(false);
-          }, 1200);
-        } else {
-          setAuth(false);
-          setTimeout(() => {
-            setSplash(false);
-          }, 1200);
-        }
-      },
-      err => {
-        console.log(err);
-      },
-    );
+    try {
+      const loginToken = appStorage.getItem('@user.token');
+      const logoutToken = appStorage.getItem('@user.passToken');
+      const emailData = appStorage.getItem('@user.email');
+      const passData = appStorage.getItem('@user.pass');
+      if (loginToken || logoutToken) {
+        setAuth(true);
+        setUserEmail(emailData);
+        setUserPass(passData);
+        setTimeout(() => {
+          setSplash(false);
+        }, 1000);
+      } else {
+        setAuth(false);
+        setTimeout(() => {
+          setSplash(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+      setAuth(false);
+    }
   };
 
   if (splash) {
